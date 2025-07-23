@@ -55,17 +55,17 @@ ORDER BY avg_order_quantity DESC;
 
 -- 5. Create a CTE to calculate the average order amount for each customer.
 WITH order_customer AS (
-SELECT o.CustomerID, c.CustomerName, od.Quantity, p.Price
+SELECT o.CustomerID, c.CustomerName, AVG(Quantity * Price ) AS avg_amount
 FROM Orders o 
 JOIN OrderDetails od ON o.OrderID = od.OrderID
 JOIN Customers c ON o.CustomerID = c.CustomerID
 JOIN Products p ON p.ProductID = od.ProductID
 GROUP BY o.CustomerID
 )
-SELECT CustomerID, CustomerName, AVG(Quantity * Price ) AS avg_amount
+SELECT CustomerID, CustomerName, avg_amount
 FROM order_customer
-GROUP BY CustomerName
 ORDER BY avg_amount DESC;
+
 
 
 
